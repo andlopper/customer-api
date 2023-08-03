@@ -12,10 +12,10 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Integer phone;
+    private String phone;
     private String email;
 
-    public Customer(Long id, String name, Integer phone, String email) {
+    public Customer(Long id, String name, String phone, String email) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -34,11 +34,11 @@ public class Customer {
         this.name = name;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
