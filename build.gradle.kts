@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+	implementation("javax.validation:validation-api")
+	compileOnly("org.projectlombok:lombok:1.18.28")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")

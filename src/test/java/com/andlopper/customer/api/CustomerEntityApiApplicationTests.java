@@ -1,10 +1,10 @@
-package com.andlopper.customerapi;
+package com.andlopper.customer.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CustomerApiApplicationTests {
+class CustomerEntityApiApplicationTests {
 
 	@Test
 	void contextLoads() {
