@@ -21,25 +21,39 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    @Autowired //TODO Remover isso aqui e parar de dar a bunda
+    @Autowired //TODO Remover isso aqui
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     //TODO Adicionar documentação ao invés de comentários
     //Método para criar ou atualizar um cliente
-    public CustomerEntity saveCustomer(CustomerEntity customerEntity) {
-        return customerRepository.save(customerEntity);
+    public CustomerResponse saveCustomer(CustomerRequest request) {
+
+        var actualCustomer = new CustomerEntity();
+
+        actualCustomer.setName(request.getName());
+        actualCustomer.setEmail(request.getEmail());
+        actualCustomer.setPhone(request.getPhone());
+
+        customerRepository.save(actualCustomer);
+
+        return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
     // Método para buscar um cliente pelo ID
-    public Optional<CustomerEntity> getCustomerById(Long id) {
-        return customerRepository.findById(id);
+    public CustomerResponse getCustomerById(Long id) {
+        var actualCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+
+        return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
     // Método para listar todos os clientes
-    public List<CustomerEntity> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerResponse> getAllCustomers() {
+        var customers = customerRepository.findAll();
+
+        return CustomerMapper.fromEntityToResponse(customers);
     }
 
     // Método para atualizar um cliente existente pelo ID
@@ -51,6 +65,27 @@ public class CustomerService {
         actualCustomer.setName(request.getName());
         actualCustomer.setEmail(request.getEmail());
         actualCustomer.setPhone(request.getPhone());
+
+        customerRepository.save(actualCustomer);
+
+        return CustomerMapper.fromEntityToResponse(actualCustomer);
+    }
+
+    public CustomerResponse partialUpdateCustomer(Long id, CustomerRequest request) {
+        var actualCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+
+        if (request.getName() != null) {
+            actualCustomer.setName(request.getName());
+        }
+
+        if (request.getPhone() != null) {
+            actualCustomer.setPhone(request.getPhone());
+        }
+
+        if (request.getEmail() != null) {
+            actualCustomer.setEmail(request.getEmail());
+        }
 
         customerRepository.save(actualCustomer);
 

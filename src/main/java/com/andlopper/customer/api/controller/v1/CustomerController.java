@@ -26,23 +26,20 @@ public class CustomerController {
 
     // Endpoint para criar ou atualizar um cliente
     @PostMapping
-    public ResponseEntity<CustomerEntity> saveOrUpdateCustomer(@RequestBody CustomerEntity customerEntity) {
-        CustomerEntity savedCustomerEntity = customerService.saveCustomer(customerEntity);
-        return new ResponseEntity<>(savedCustomerEntity, HttpStatus.CREATED);
+    public CustomerResponse saveOrUpdateCustomer(@RequestBody CustomerRequest customerEntity) {
+        return customerService.saveCustomer(customerEntity);
     }
 
     // Endpoint para buscar um cliente pelo ID
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerEntity> getCustomerById(@PathVariable Long id) {
-        Optional<CustomerEntity> customer = customerService.getCustomerById(id);
-        return customer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public CustomerResponse getCustomerById(@PathVariable Long id) {
+        return customerService.getCustomerById(id);
     }
 
     // Endpoint para listar todos os clientes
     @GetMapping
-    public ResponseEntity<List<CustomerEntity>> getAllCustomers() {
-        List<CustomerEntity> customerEmtities = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+        List<CustomerResponse> customerEmtities = customerService.getAllCustomers();
         return new ResponseEntity<>(customerEmtities, HttpStatus.OK);
     }
 
@@ -62,26 +59,8 @@ public class CustomerController {
 
     // Método PATCH para atualizar parcialmente um cliente pelo ID
     @PatchMapping("/{id}")
-    public ResponseEntity<CustomerEntity> partialUpdateCustomer(@PathVariable Long id, @RequestBody CustomerEntity partialCustomerEntity) {
-        CustomerEntity existingCustomerEntity = customerService.getCustomerById(id).orElse(null);
-
-        if (existingCustomerEntity != null) {
-            if (partialCustomerEntity.getName() != null) {
-                existingCustomerEntity.setName(partialCustomerEntity.getName());
-            }
-
-            if (partialCustomerEntity.getPhone() != null) {
-                existingCustomerEntity.setPhone(partialCustomerEntity.getPhone());
-            }
-
-            if (partialCustomerEntity.getEmail() != null) {
-                existingCustomerEntity.setEmail(partialCustomerEntity.getEmail());
-            }
-
-            CustomerEntity updatedCustomerEntity = customerService.saveCustomer(existingCustomerEntity);
-            return new ResponseEntity<>(updatedCustomerEntity, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public CustomerResponse partialUpdateCustomer(@PathVariable Long id,
+                                                  @Valid @RequestBody CustomerRequest request) {
+        return customerService.partialUpdateCustomer(id, request);
     }
 }
