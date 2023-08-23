@@ -28,9 +28,9 @@ public class CustomerService {
 
     //TODO Adicionar documentação ao invés de comentários
     /**
-     * Método para criar um cliente
-     * @param request Dados da requisição
-     * @return Dados salvos
+     * Cria um novo cliente.
+     * @param request Objeto contendo os dados do cliente a ser criado.
+     * @return O cliente criado.
      */
     public CustomerResponse saveCustomer(CustomerRequest request) {
         log.info("Criando novo cliente");
@@ -48,7 +48,11 @@ public class CustomerService {
         return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
-    // Método para buscar um cliente pelo ID
+    /**
+     * Busca um cliente pelo ID.
+     * @param id O ID do cliente a ser buscado.
+     * @return O cliente encontrado ou null se nenhum cliente com o ID especificado for encontrado.
+     */
     public CustomerResponse getCustomerById(Long id) {
         log.info("Buscando cliente com id: {}", id);
 
@@ -60,7 +64,10 @@ public class CustomerService {
         return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
-    // Método para listar todos os clientes
+    /**
+     * Busca todos os clientes.
+     * @return Todos os clientes encontrados.
+     */
     public List<CustomerResponse> getAllCustomers() {
         log.info("Listando todos os clientes");
 
@@ -72,6 +79,13 @@ public class CustomerService {
     }
 
     // Método para atualizar um cliente existente pelo ID
+
+    /**
+     * Atualiza um cliente.
+     * @param id O ID do cliente a ser atualizado.
+     * @param request Objeto contendo todos os dados do cliente a ser atualizado.
+     * @return O cliente atualizado.
+     */
     public CustomerResponse updateCustomer(Long id, CustomerRequest request) {
         //TODO Adicionar logs "log.info("vai fazer tal coisa");
         log.info("Atualizando cliente com id: {}", id);
@@ -90,6 +104,12 @@ public class CustomerService {
         return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
+    /**
+     * Atualiza parcialmente um cliente.
+     * @param id O ID do cliente a ser atualizado parcialmente.
+     * @param request O objeto contendo os dados a serem atualizados.
+     * @return Os dados completos do cliente atualizado.
+     */
     public CustomerResponse partialUpdateCustomer(Long id, CustomerRequest request) {
         log.info("Atualizando parcialmente cliente: {}", id);
 
@@ -115,7 +135,10 @@ public class CustomerService {
         return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
-    // Método para excluir um cliente pelo ID
+    /**
+     * Remove um cliente
+     * @param id O ID do cliente a ser removido.
+     */
     public void deleteCustomer(Long id) {
         log.info("Deletando cliente: {}", id);
 
