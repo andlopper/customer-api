@@ -10,8 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,10 +24,12 @@ public class CustomerService {
     private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 
     private final CustomerRepository customerRepository;
+    private final MessageSource messageSource;
 
     @Autowired //TODO Remover isso aqui
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, MessageSource messageSource) {
         this.customerRepository = customerRepository;
+        this.messageSource = messageSource;
     }
 
     //TODO Adicionar documentação ao invés de comentários
@@ -54,7 +59,7 @@ public class CustomerService {
         log.info("Buscando cliente com id: {}", id);
 
         var actualCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Cliente nao encontrado"));
+                .orElseThrow(() -> new CustomerNotFoundException(messageSource.getMessage("customer.not.found", new Object[]{id}, null)));
 
         log.info("Cliente encontrado");
 
@@ -77,7 +82,8 @@ public class CustomerService {
         //TODO Adicionar logs "log.info("vai fazer tal coisa");
         log.info("Atualizando cliente com id: {}", id);
         var actualCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado")); //TODO parametrizar mensagens de erro atraves do arquivo message.properties
+                .orElseThrow(() -> new CustomerNotFoundException(messageSource.getMessage("customer.not.found", new Object[]{id}, null)));
+        //TODO parametrizar mensagens de erro atraves do arquivo message.properties
 
         actualCustomer.setName(request.getName());
         actualCustomer.setEmail(request.getEmail());
@@ -94,7 +100,7 @@ public class CustomerService {
         log.info("Atualizando parcialmente cliente: {}", id);
 
         var actualCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+                .orElseThrow(() -> new CustomerNotFoundException(messageSource.getMessage("customer.not.found", new Object[]{id}, null)));
 
         if (request.getName() != null) {
             actualCustomer.setName(request.getName());
@@ -118,6 +124,9 @@ public class CustomerService {
     // Método para excluir um cliente pelo ID
     public void deleteCustomer(Long id) {
         log.info("Deletando cliente: {}", id);
+
+        customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException(messageSource.getMessage("customer.not.found", new Object[]{id}, null)));
 
         customerRepository.deleteById(id);
 
