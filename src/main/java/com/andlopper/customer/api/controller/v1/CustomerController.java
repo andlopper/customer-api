@@ -2,16 +2,13 @@ package com.andlopper.customer.api.controller.v1;
 
 import com.andlopper.customer.api.controller.v1.request.CustomerRequest;
 import com.andlopper.customer.api.controller.v1.response.CustomerResponse;
-import com.andlopper.customer.api.entity.CustomerEntity;
 import com.andlopper.customer.api.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/customers")
@@ -19,7 +16,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }

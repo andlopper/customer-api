@@ -2,21 +2,16 @@ package com.andlopper.customer.api.service;
 
 import com.andlopper.customer.api.controller.v1.request.CustomerRequest;
 import com.andlopper.customer.api.controller.v1.response.CustomerResponse;
+import com.andlopper.customer.api.entity.CustomerEntity;
 import com.andlopper.customer.api.exception.CustomerNotFoundException;
 import com.andlopper.customer.api.mapper.CustomerMapper;
 import com.andlopper.customer.api.repository.CustomerRepository;
-import com.andlopper.customer.api.entity.CustomerEntity;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -26,7 +21,6 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final MessageSource messageSource;
 
-    @Autowired //TODO Remover isso aqui
     public CustomerService(CustomerRepository customerRepository, MessageSource messageSource) {
         this.customerRepository = customerRepository;
         this.messageSource = messageSource;
