@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Service
 public class CustomerService {
+
+    private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 
     private final CustomerRepository customerRepository;
 
@@ -27,8 +28,13 @@ public class CustomerService {
     }
 
     //TODO Adicionar documentação ao invés de comentários
-    //Método para criar ou atualizar um cliente
+    /**
+     * Método para criar um cliente
+     * @param request Dados da requisição
+     * @return Dados salvos
+     */
     public CustomerResponse saveCustomer(CustomerRequest request) {
+        log.info("Criando novo cliente");
 
         var actualCustomer = new CustomerEntity();
 
@@ -38,20 +44,30 @@ public class CustomerService {
 
         customerRepository.save(actualCustomer);
 
+        log.info("Cliente criado com id: {}", actualCustomer.getId());
+
         return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
     // Método para buscar um cliente pelo ID
     public CustomerResponse getCustomerById(Long id) {
+        log.info("Buscando cliente com id: {}", id);
+
         var actualCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+                .orElseThrow(() -> new CustomerNotFoundException("Cliente nao encontrado"));
+
+        log.info("Cliente encontrado");
 
         return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
     // Método para listar todos os clientes
     public List<CustomerResponse> getAllCustomers() {
+        log.info("Listando todos os clientes");
+
         var customers = customerRepository.findAll();
+
+        log.info("Todos clientes listados");
 
         return CustomerMapper.fromEntityToResponse(customers);
     }
@@ -59,6 +75,7 @@ public class CustomerService {
     // Método para atualizar um cliente existente pelo ID
     public CustomerResponse updateCustomer(Long id, CustomerRequest request) {
         //TODO Adicionar logs "log.info("vai fazer tal coisa");
+        log.info("Atualizando cliente com id: {}", id);
         var actualCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado")); //TODO parametrizar mensagens de erro atraves do arquivo message.properties
 
@@ -68,10 +85,14 @@ public class CustomerService {
 
         customerRepository.save(actualCustomer);
 
+        log.info("Cliente {} atualizado", id);
+
         return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
     public CustomerResponse partialUpdateCustomer(Long id, CustomerRequest request) {
+        log.info("Atualizando parcialmente cliente: {}", id);
+
         var actualCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
 
@@ -89,11 +110,17 @@ public class CustomerService {
 
         customerRepository.save(actualCustomer);
 
+        log.info("Cliente {} parcialmente atualizado", id);
+
         return CustomerMapper.fromEntityToResponse(actualCustomer);
     }
 
     // Método para excluir um cliente pelo ID
     public void deleteCustomer(Long id) {
+        log.info("Deletando cliente: {}", id);
+
         customerRepository.deleteById(id);
+
+        log.info("Cliente {} deletado", id);
     }
 }

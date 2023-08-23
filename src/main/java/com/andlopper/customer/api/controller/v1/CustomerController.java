@@ -26,7 +26,7 @@ public class CustomerController {
 
     // Endpoint para criar ou atualizar um cliente
     @PostMapping
-    public CustomerResponse saveOrUpdateCustomer(@RequestBody CustomerRequest customerEntity) {
+    public CustomerResponse saveCustomer(@RequestBody CustomerRequest customerEntity) {
         return customerService.saveCustomer(customerEntity);
     }
 
