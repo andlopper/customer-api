@@ -2,6 +2,7 @@ package com.andlopper.customer.api.controller.v1.response;
 
 public class CustomerResponse {
 
+    private Long id;
     private String name;
 
     private String phone;
@@ -11,10 +12,19 @@ public class CustomerResponse {
     public CustomerResponse() {
     }
 
-    public CustomerResponse(String name, String phone, String email) {
+    public CustomerResponse(Long id, String name, String phone, String email) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

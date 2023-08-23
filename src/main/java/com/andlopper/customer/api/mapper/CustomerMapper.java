@@ -10,6 +10,7 @@ public class CustomerMapper {
 
     public static CustomerResponse fromEntityToResponse(CustomerEntity from) {
         var toResponse = new CustomerResponse();
+        toResponse.setId(from.getId());
         toResponse.setEmail(from.getEmail());
         toResponse.setName(from.getName());
         toResponse.setPhone(from.getPhone());
