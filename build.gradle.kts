@@ -22,6 +22,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
+    implementation("org.springdoc:springdoc-openapi-data-rest:1.7.0")
+    implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
 }
 
 tasks.withType<Test> {
