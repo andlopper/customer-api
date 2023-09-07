@@ -5,6 +5,8 @@ import com.andlopper.customer.api.service.CustomerService;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,8 @@ public class DownloadController {
 
     private final CustomerService customerService;
 
+    private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
+
     public DownloadController(CustomerService customerService) {
         this.customerService = customerService;
     }
@@ -29,6 +33,8 @@ public class DownloadController {
 
     @GetMapping
     public void downloadExcel(HttpServletResponse response) throws IOException {
+        log.info("Gerando arquivo xlsx");
+
         List<CustomerResponse> customers = customerService.getAllCustomers();
 
         // Cria um novo arquivo Excel usando o Apache POI
@@ -105,5 +111,7 @@ public class DownloadController {
         // Escreve os bytes do arquivo diretamente na resposta
         response.getOutputStream().write(bos.toByteArray());
         response.flushBuffer();
+
+        log.info("Download do arquivo realizado");
     }
 }
