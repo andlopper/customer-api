@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Bean;
 public class CustomerApiApplication {
 	private static final Logger log = LoggerFactory.getLogger(CustomerApiApplication.class);
 	public static void main(String[] args) {
+		log.info("[main] Iniciando API de gerenciamento de clientes");
 		SpringApplication.run(CustomerApiApplication.class, args);
-
-		log.info("Programa iniciado");
+		log.info("[main] API iniciada e pronta para receber requisições");
 	}
 }

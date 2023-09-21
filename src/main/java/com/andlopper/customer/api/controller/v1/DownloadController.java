@@ -30,10 +30,9 @@ public class DownloadController {
         this.customerService = customerService;
     }
 
-
     @GetMapping
     public void downloadExcel(HttpServletResponse response) throws IOException {
-        log.info("Gerando arquivo xlsx");
+        log.info("[downloadExcel] Gerando arquivo xlsx");
 
         List<CustomerResponse> customers = customerService.getAllCustomers();
 
@@ -112,6 +111,6 @@ public class DownloadController {
         response.getOutputStream().write(bos.toByteArray());
         response.flushBuffer();
 
-        log.info("Download do arquivo realizado");
+        log.info("[downloadExcel] Download do arquivo realizado");
     }
 }
