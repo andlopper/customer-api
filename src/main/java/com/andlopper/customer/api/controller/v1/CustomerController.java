@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @Tag(name = "customer-api")
 @RequestMapping("/customers")
-public class CustomerController {
+public class CustomerController implements CustomerAPI{
 
     private final CustomerService customerService;
 
@@ -28,11 +28,6 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @Operation(summary = "Cria um novo cliente", description = "Retorna o cliente recém criado")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Sucesso", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = CustomerResponse.class))})
-    })
     @PostMapping
     public CustomerResponse saveCustomer(@RequestBody CustomerRequest customerEntity) {
         return customerService.saveCustomer(customerEntity);
